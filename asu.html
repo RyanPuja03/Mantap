@@ -1,11 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b131a">
     <title>Portfolio Kreatif Sinematik</title>
+
     <style>
-        /* 1. RESET & FONT UTAMA */
+        /* 1. RESET */
         * {
             margin: 0;
             padding: 0;
@@ -13,182 +16,297 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        body, html {
-            height: 100%;
-            overflow: hidden; /* Mencegah scrollbar muncul */
-            background-color: #0b131a; /* Warna cadangan gelap */
+        html, body {
+            width: 100%;
+            min-height: 100%;
         }
 
-        /* 2. BACKGROUND VIDEO SINEMATIK */
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: #0b131a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* 2. VIDEO BACKGROUND */
         .video-container {
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
-            z-index: -2;
+            z-index: 0;
+            overflow: hidden;
+            background: #0b131a;
+            pointer-events: none;
         }
 
         .video-container video {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Memastikan video memotong rapi sesuai layar */
+            object-fit: cover;
+            object-position: center;
         }
 
-        /* 3. OVERLAY GELAP (Kunci Efek Sinematik & Kontras Teks) */
+        /* 3. OVERLAY SINEMATIK */
         .overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Memberi efek gradasi gelap kebiruan transparan di atas video */
-            background: linear-gradient(135deg, rgba(11, 25, 44, 0.85) 0%, rgba(27, 38, 59, 0.6) 100%);
-            z-index: -1;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(11, 25, 44, 0.70) 0%,
+                    rgba(27, 38, 59, 0.40) 55%,
+                    rgba(5, 12, 20, 0.65) 100%
+                );
         }
 
-        /* 4. NAVIGASI (HOME, DLL) */
+        /* 4. HEADER DAN NAVIGASI */
         header {
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: relative;
+            z-index: 2;
             width: 100%;
-            padding: 30px 8%;
+            padding: 28px 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 10;
+            gap: 24px;
         }
 
         .logo {
             color: #ffffff;
-            font-weight: 700;
             font-size: 24px;
+            font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            gap: 30px;
         }
 
         .navbar a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 500;
-            margin-left: 35px;
-            letter-spacing: 1px;
-            transition: all 0.3s ease; /* Efek halus saat disentuh mouse */
             position: relative;
+            color: rgba(255, 255, 255, 0.78);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            padding: 8px 0;
+            transition: color 0.3s ease;
         }
 
-        /* Efek garis bawah saat menu disorot mouse */
-        .navbar a:hover, .navbar a.active {
+        .navbar a:hover,
+        .navbar a.active {
             color: #ffffff;
         }
-        
+
         .navbar a::after {
-            content: '';
+            content: "";
             position: absolute;
+            left: 0;
+            bottom: 0;
             width: 0;
             height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: #00d2ff; /* Warna aksen cyan terang */
+            background: #00d2ff;
             transition: width 0.3s ease;
         }
-        
-        .navbar a:hover::after {
+
+        .navbar a:hover::after,
+        .navbar a.active::after {
             width: 100%;
         }
 
-        /* 5. KONTEN UTAMA (TEKS DI TENGAH) */
+        /* 5. KONTEN UTAMA */
         .main-content {
-            height: 100%;
+            position: relative;
+            z-index: 2;
+            min-height: calc(100vh - 90px);
+            min-height: calc(100dvh - 90px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            color: #ffffff;
-            padding: 0 20px;
+            padding: 40px 24px 80px;
         }
 
         .main-content h1 {
-            font-size: 64px;
+            max-width: 1000px;
+            font-size: clamp(34px, 6vw, 64px);
+            line-height: 1.2;
             font-weight: 300;
-            letter-spacing: 5px;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            margin-bottom: 15px;
-            /* Efek bayangan teks tipis agar lebih terbaca */
-            text-shadow: 0px 4px 20px rgba(0,0,0,0.5);
+            margin-bottom: 22px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
-        /* Menonjolkan kata kunci */
         .main-content h1 span {
+            color: #00d2ff;
             font-weight: 700;
-            color: #00d2ff; 
         }
 
         .main-content p {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 600px;
+            max-width: 620px;
+            font-size: clamp(15px, 2vw, 18px);
             line-height: 1.8;
-            letter-spacing: 0.5px;
-            margin-bottom: 30px;
+            letter-spacing: 0.3px;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 34px;
         }
 
-        /* Tombol Panggilan Aksi (CTA) */
+        /* 6. TOMBOL */
         .btn-explore {
             display: inline-block;
-            padding: 12px 35px;
+            padding: 14px 32px;
             border: 2px solid #ffffff;
             color: #ffffff;
             text-decoration: none;
+            font-size: 13px;
             font-weight: 600;
             letter-spacing: 2px;
             text-transform: uppercase;
-            font-size: 14px;
-            transition: all 0.4s ease;
+            transition:
+                background-color 0.3s ease,
+                color 0.3s ease,
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
         }
 
         .btn-explore:hover {
-            background-color: #ffffff;
+            background: #ffffff;
             color: #0b131a;
-            transform: translateY(-3px); /* Efek melayang sedikit */
-            box-shadow: 0px 10px 20px rgba(0,0,0,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 7. RESPONSIF UNTUK HP */
+        @media (max-width: 700px) {
+            header {
+                padding: 22px 5%;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .navbar {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 12px 22px;
+            }
+
+            .navbar a {
+                font-size: 13px;
+            }
+
+            .main-content {
+                min-height: calc(100vh - 120px);
+                min-height: calc(100dvh - 120px);
+                padding: 40px 20px 60px;
+            }
+
+            .main-content h1 {
+                letter-spacing: 1.5px;
+            }
+
+            .main-content p {
+                line-height: 1.7;
+            }
+        }
+
+        /* 8. PENGATURAN AKSESIBILITAS */
+        @media (prefers-reduced-motion: reduce) {
+            .navbar a,
+            .navbar a::after,
+            .btn-explore {
+                transition: none;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <!-- 1. Video Background Element -->
+    <!-- VIDEO BACKGROUND -->
     <div class="video-container">
-        <!-- Video gratis bertema air bergelombang dari Pexels/Pixabay -->
-        <video autoplay loop muted playsinline>
-          <source src="video.mp4" type="video/mp4">
-            Browsermu tidak mendukung video HTML5.
+        <video
+            id="bgVideo"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-hidden="true"
+        >
+            <source src="./video.mp4" type="video/mp4">
         </video>
     </div>
 
-    <!-- 2. Lapisan Kegelapan / Overlay Sinematik -->
+    <!-- OVERLAY -->
     <div class="overlay"></div>
 
-    <!-- 3. Navigasi Atas -->
+    <!-- NAVIGASI -->
     <header>
         <div class="logo">Kreatif.Studio</div>
-        <nav class="navbar">
-            <a href="#" class="active">Home</a>
-            <a href="#">Tentang</a>
-            <a href="#">Portfolio</a>
-            <a href="#">Kontak</a>
+
+        <nav class="navbar" aria-label="Navigasi utama">
+            <a href="#home" class="active">Home</a>
+            <a href="#tentang">Tentang</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#kontak">Kontak</a>
         </nav>
     </header>
 
-    <!-- 4. Isi Teks Utama -->
-    <main class="main-content">
+    <!-- KONTEN UTAMA -->
+    <main class="main-content" id="home">
         <h1>Sisi <span>Kreatif</span> Menanti</h1>
-        <p>Menjembatani analisis logis berbasis data dengan estetika visual yang menghidupkan ruang digital.</p>
-        <a href="#" class="btn-explore">Lihat Karya</a>
+
+        <p>
+            Menjembatani analisis logis berbasis data
+            dengan estetika visual yang menghidupkan
+            ruang digital.
+        </p>
+
+        <a href="#portfolio" class="btn-explore">
+            Lihat Karya
+        </a>
     </main>
+
+    <!-- PEMUTARAN VIDEO -->
+    <script>
+        const video = document.getElementById("bgVideo");
+
+        video.muted = true;
+        video.defaultMuted = true;
+
+        const playVideo = () => {
+            video.play().catch(() => {
+                // Browser mungkin membatasi autoplay.
+                // Video tetap bisa dicoba diputar kembali
+                // setelah halaman dimuat ulang.
+            });
+        };
+
+        if (video.readyState >= 2) {
+            playVideo();
+        } else {
+            video.addEventListener("canplay", playVideo, {
+                once: true
+            });
+        }
+    </script>
 
 </body>
 </html>
